@@ -4,116 +4,180 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Luxury Auto Detailing</title>
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.css" rel="stylesheet">
     <style>
-        * {
+        /* Modern CSS Reset */
+        *, *::before, *::after {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: 'Arial', sans-serif;
         }
 
         html {
             scroll-behavior: smooth;
         }
 
-        .header {
-            position: relative;
-            height: 100vh;
+        body {
+            font-family: 'Arial', sans-serif;
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        /* Navbar Styles */
+        .navbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            z-index: 1000;
+            background: rgba(255, 255, 255, 0.95);
+            padding: 1rem 5%;
             display: flex;
-            flex-direction: column;
-            justify-content: center;
+            justify-content: space-between;
             align-items: center;
-            color: white;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        .navbar.scrolled {
+            padding: 0.5rem 5%;
+            background: rgba(255, 255, 255, 0.98);
+        }
+
+        .logo img {
+            height: 50px;
+            transition: all 0.3s ease;
+        }
+
+        .navbar.scrolled .logo img {
+            height: 40px;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2.5rem;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: #333;
+            font-weight: 500;
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            transition: color 0.3s;
+            position: relative;
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: -5px;
+            left: 0;
+            background-color: #0066cc;
+            transition: width 0.3s;
+        }
+
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+
+        /* Hero Section */
+        .hero {
+            height: 100vh;
+            position: relative;
             overflow: hidden;
         }
 
         .video-bg {
             position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: -1;
-        }
-
-        .video-bg video {
             width: 100%;
             height: 100%;
             object-fit: cover;
         }
 
-        .overlay {
+        .hero-overlay {
             position: absolute;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            background: rgba(0, 0, 0, 0.5);
-            z-index: -1;
+            background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.7));
         }
 
-        .logo {
-            max-width: 300px;
-            margin-bottom: 30px;
-        }
-
-        nav {
-            position: fixed;
-            top: 0;
-            width: 100%;
-            padding: 20px;
-            background: rgba(0,0,0,0.8);
-            z-index: 100;
+        .hero-content {
+            position: relative;
+            height: 100%;
             display: flex;
+            flex-direction: column;
             justify-content: center;
-            gap: 30px;
+            align-items: center;
+            text-align: center;
+            color: white;
+            padding: 0 1rem;
         }
 
-        nav a {
+        .hero-title {
+            font-size: 4rem;
+            font-weight: 700;
+            margin-bottom: 1.5rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        .hero-subtitle {
+            font-size: 1.5rem;
+            margin-bottom: 2rem;
+            font-weight: 300;
+        }
+
+        .cta-button {
+            padding: 1rem 2.5rem;
+            background: #0066cc;
             color: white;
             text-decoration: none;
-            font-weight: bold;
-            transition: color 0.3s ease;
+            border-radius: 5px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            transition: transform 0.3s, background 0.3s;
         }
 
-        nav a:hover {
-            color: #e31837;
+        .cta-button:hover {
+            background: #0052a3;
+            transform: translateY(-2px);
         }
 
-        .header-content {
+        /* Services Section */
+        .services {
+            padding: 8rem 5%;
+            background: #f9f9f9;
+        }
+
+        .section-title {
             text-align: center;
-            z-index: 1;
-        }
-
-        .header-title {
-            font-size: 3.5em;
-            margin-bottom: 20px;
-            text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
-        }
-
-        .header-subtitle {
-            font-size: 1.5em;
-            margin-bottom: 30px;
-            text-shadow: 1px 1px 2px rgba(0,0,0,0.5);
+            font-size: 2.5rem;
+            margin-bottom: 4rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            color: #333;
         }
 
         .services-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 30px;
-            padding: 50px 20px;
-            max-width: 1400px;
-            margin: 0 auto;
+            gap: 2rem;
         }
 
         .service-card {
-            position: relative;
-            height: 400px;
+            background: white;
+            border-radius: 10px;
             overflow: hidden;
-            border-radius: 15px;
-            cursor: pointer;
-            transition: transform 0.3s ease;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            transition: transform 0.3s;
         }
 
         .service-card:hover {
@@ -122,330 +186,435 @@
 
         .service-image {
             width: 100%;
-            height: 100%;
+            height: 250px;
             object-fit: cover;
-            transition: transform 0.3s ease;
-        }
-
-        .service-card:hover .service-image {
-            transform: scale(1.1);
         }
 
         .service-content {
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            right: 0;
-            padding: 20px;
-            background: linear-gradient(transparent, rgba(0,0,0,0.9));
-            color: white;
-            transform: translateY(70%);
-            transition: transform 0.3s ease;
-        }
-
-        .service-card:hover .service-content {
-            transform: translateY(0);
+            padding: 2rem;
         }
 
         .service-title {
-            font-size: 1.5em;
-            margin-bottom: 10px;
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            color: #333;
         }
 
         .service-description {
-            font-size: 0.9em;
-            margin-bottom: 15px;
-            opacity: 0;
-            transition: opacity 0.3s ease;
+            color: #666;
+            margin-bottom: 1.5rem;
         }
 
-        .service-card:hover .service-description {
-            opacity: 1;
-        }
-
-        .cta-button {
-            display: inline-block;
-            padding: 10px 20px;
-            background: #e31837;
-            color: white;
-            text-decoration: none;
-            border-radius: 5px;
-            transition: transform 0.3s ease;
-            border: none;
-            cursor: pointer;
-        }
-
-        .cta-button:hover {
-            transform: scale(1.1);
-        }
-
-        .maintenance-section {
-            background: #f9f9f9;
-            padding: 80px 20px;
-            text-align: center;
+        /* Maintenance Section */
+        .maintenance {
+            padding: 8rem 5%;
+            background: white;
+            display: flex;
+            align-items: center;
+            gap: 4rem;
         }
 
         .maintenance-content {
-            max-width: 1200px;
-            margin: 0 auto;
-            display: flex;
-            align-items: center;
-            gap: 40px;
-        }
-
-        .maintenance-text {
             flex: 1;
-            text-align: left;
         }
 
-        .maintenance-text h2 {
-            font-size: 38px;
-            color: #333;
-            margin-bottom: 30px;
+        .maintenance-title {
+            font-size: 2.5rem;
+            margin-bottom: 2rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
         }
 
         .maintenance-image {
             flex: 1;
-            height: 300px;
-            overflow: hidden;
             border-radius: 10px;
+            overflow: hidden;
         }
 
         .maintenance-image img {
             width: 100%;
-            height: 100%;
-            object-fit: cover;
+            height: auto;
+            transform: scale(1.1);
+            transition: transform 0.3s;
         }
 
+        .maintenance-image:hover img {
+            transform: scale(1);
+        }
+
+        /* Testimonials */
         .testimonials {
-            padding: 80px 20px;
-            background: #1a1a1a;
-            color: white;
+            padding: 8rem 5%;
+            background: #f9f9f9;
             text-align: center;
+        }
+
+        .testimonial-slider {
+            max-width: 800px;
+            margin: 0 auto;
             position: relative;
         }
 
         .testimonial-slide {
-            max-width: 800px;
-            margin: 0 auto;
             display: none;
-            animation: fadeIn 0.5s ease-in-out;
+            padding: 2rem;
+            animation: fadeEffect 1s;
+        }
+
+        @keyframes fadeEffect {
+            from {opacity: 0.4;}
+            to {opacity: 1;}
         }
 
         .testimonial-slide.active {
             display: block;
         }
 
-        .testimonial-content {
-            font-size: 20px;
-            line-height: 1.3;
-            margin-bottom: 20px;
+        .testimonial-text {
+            font-size: 1.2rem;
+            line-height: 1.8;
+            font-style: italic;
+            color: #555;
+            margin-bottom: 2rem;
         }
 
         .testimonial-author {
-            font-size: 16px;
-            margin-bottom: 10px;
-        }
-
-        .testimonial-divider {
-            width: 50px;
-            height: 2px;
-            background: white;
-            margin: 15px auto;
+            font-weight: 600;
+            color: #333;
         }
 
         .testimonial-nav {
             position: absolute;
             top: 50%;
-            width: 100%;
             transform: translateY(-50%);
+            width: 100%;
             display: flex;
             justify-content: space-between;
-            padding: 0 30px;
+            padding: 0 2rem;
         }
 
-        .testimonial-nav button {
-            background: none;
-            border: none;
+        .prev, .next {
+            cursor: pointer;
+            padding: 1rem;
+            color: #333;
+            font-weight: bold;
+            font-size: 1.5rem;
+            transition: 0.3s;
+            user-select: none;
+        }
+
+        .prev:hover, .next:hover {
+            color: #0066cc;
+        }
+
+        /* Footer */
+        .footer {
+            background: #333;
             color: white;
-            cursor: pointer;
-            font-size: 24px;
-            padding: 10px;
-            transition: opacity 0.3s ease;
+            padding: 5rem 5% 2rem;
         }
 
-        .testimonial-nav button:hover {
-            opacity: 0.7;
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 4rem;
+            margin-bottom: 3rem;
         }
 
-        .testimonial-dots {
+        .footer-column h3 {
+            font-size: 1.2rem;
+            margin-bottom: 1.5rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .footer-column p,
+        .footer-column a {
+            color: #ccc;
+            text-decoration: none;
+            margin-bottom: 0.5rem;
+            display: block;
+            transition: color 0.3s;
+        }
+
+        .footer-column a:hover {
+            color: white;
+        }
+
+        .social-links {
             display: flex;
-            justify-content: center;
-            gap: 10px;
-            margin-top: 20px;
+            gap: 1rem;
+            margin-top: 1rem;
         }
 
-        .dot {
-            width: 10px;
-            height: 10px;
+        .social-links a {
+            width: 40px;
+            height: 40px;
+            background: rgba(255,255,255,0.1);
             border-radius: 50%;
-            background: rgba(255,255,255,0.3);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: background 0.3s;
+        }
+
+        .social-links a:hover {
+            background: rgba(255,255,255,0.2);
+        }
+
+        .copyright {
+            text-align: center;
+            padding-top: 2rem;
+            border-top: 1px solid rgba(255,255,255,0.1);
+            color: #ccc;
+            font-size: 0.9rem;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .navbar {
+                padding: 1rem;
+            }
+
+            .nav-links {
+                display: none;
+            }
+
+            .hero-title {
+                font-size: 2.5rem;
+            }
+
+            .maintenance {
+                flex-direction: column;
+                padding: 4rem 5%;
+            }
+
+            .footer-content {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+            }
+        }
+
+        /* Mobile Menu */
+        .mobile-menu-btn {
+            display: none;
             cursor: pointer;
-        }
-
-        .dot.active {
-            background: white;
-        }
-
-        @keyframes fadeIn {
-            from { opacity: 0; }
-            to { opacity: 1; }
+            padding: 0.5rem;
         }
 
         @media (max-width: 768px) {
-            .maintenance-content {
+            .mobile-menu-btn {
+                display: block;
+            }
+
+            .nav-links {
+                position: fixed;
+                top: 70px;
+                left: 0;
+                width: 100%;
+                background: white;
                 flex-direction: column;
+                padding: 2rem;
+                gap: 1.5rem;
+                box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+                transform: translateY(-150%);
+                transition: transform 0.3s;
             }
 
-            .header-title {
-                font-size: 2.5em;
-            }
-
-            .header-subtitle {
-                font-size: 1.2em;
-            }
-
-            nav {
-                flex-direction: column;
-                align-items: center;
-                gap: 15px;
+            .nav-links.active {
+                transform: translateY(0);
             }
         }
     </style>
 </head>
 <body>
-    <nav>
-        <a href="#home">Home</a>
-        <a href="#services">Services</a>
-        <a href="#maintenance">Maintenance</a>
-        <a href="#testimonials">Reviews</a>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="logo">
+            <img src="logo.png" alt="Luxury Auto Detailing">
+        </div>
+        <div class="nav-links">
+            <a href="#home">Home</a>
+            <a href="#services">Services</a>
+            <a href="#maintenance">Maintenance</a>
+            <a href="#testimonials">Reviews</a>
+            <a href="#contact">Contact</a>
+        </div>
+        <div class="mobile-menu-btn">
+            <i class="fas fa-bars"></i>
+        </div>
     </nav>
 
-    <header class="header" id="home">
-        <div class="video-bg">
-            <video autoplay muted loop playsinline>
-                <source src="vid.mp4" type="video/mp4">
-            </video>
-            <div class="overlay"></div>
-        </div>
-        <div class="header-content">
-            <img src="logo.png" alt="Logo" class="logo">
-            <h1 class="header-title">Luxury Auto Detailing</h1>
-            <p class="header-subtitle">Experience Premium Car Care</p>
-            <button class="cta-button">Book Now</button>
-        </div>
-    </header>
-
-    <section id="services" class="services-grid">
-        <div class="service-card">
-            <img src="s1.png" alt="Car Detailing" class="service-image">
-            <div class="service-content">
-                <h3 class="service-title">Car Detailing</h3>
-                <p class="service-description">Complete interior and exterior detailing service to restore your vehicle's showroom shine. Our premium service includes thorough cleaning, polishing, and protection.</p>
-                <button class="cta-button">Learn More</button>
-            </div>
-        </div>
-        <div class="service-card">
-            <img src="s2.png" alt="Ceramic Coating" class="service-image">
-            <div class="service-content">
-                <h3 class="service-title">Ceramic Coating</h3>
-                <p class="service-description">Advanced paint protection with ceramic coating technology. Provides long-lasting shine and protection against environmental damage.</p>
-                <button class="cta-button">Learn More</button>
-            </div>
-        </div>
-        <div class="service-card">
-            <img src="s3.png" alt="Paint Correction" class="service-image">
-            <div class="service-content">
-                <h3 class="service-title">Paint Correction</h3>
-                <p class="service-description">Professional paint correction to remove swirls, scratches, and imperfections. Restore your vehicle's paint to its original glory.</p>
-                <button class="cta-button">Learn More</button>
-            </div>
-        </div>
-        <div class="service-card">
-            <img src="s4.png" alt="Truck Detailing" class="service-image">
-            <div class="service-content">
-                <h3 class="service-title">Truck Detailing</h3>
-                <p class="service-description">Specialized detailing services for trucks and commercial vehicles. Comprehensive cleaning and protection for your fleet.</p>
-                <button class="cta-button">Learn More</button>
-            </div>
+    <!-- Hero Section -->
+    <section id="home" class="hero">
+        <video class="video-bg" autoplay muted loop>
+            <source src="vid.mp4" type="video/mp4">
+        </video>
+        <div class="hero-overlay"></div>
+        <div class="hero-content">
+            <h1 class="hero-title" data-aos="fade-up">Luxury Auto Detailing</h1>
+            <p class="hero-subtitle" data-aos="fade-up" data-aos-delay="200">Experience Premium Car Care</p>
+            <a href="#contact" class="cta-button" data-aos="fade-up" data-aos-delay="400">Book Your Service</a>
         </div>
     </section>
 
-    <section id="maintenance" class="maintenance-section">
-        <div class="maintenance-content">
-            <div class="maintenance-text">
-                <h2>LUXURY VEHICLE MAINTENANCE PACKAGE</h2>
-                <button class="cta-button">FIND OUT MORE</button>
+    <!-- Services Section -->
+    <section id="services" class="services">
+        <h2 class="section-title" data-aos="fade-up">Our Services</h2>
+        <div class="services-grid">
+            <div class="service-card" data-aos="fade-up">
+                <img src="s1.png" alt="Car Detailing" class="service-image">
+                <div class="service-content">
+                    <h3 class="service-title">Car Detailing</h3>
+                    <p class="service-description">Complete interior and exterior detailing service to restore your vehicle's showroom shine. Our premium service includes thorough cleaning, polishing, and protection.</p>
+                    <a href="#" class="cta-button">Learn More</a>
+                </div>
             </div>
-            <div class="maintenance-image">
-                <img src="s5.png" alt="Luxury Vehicle Maintenance">
+            <div class="service-card" data-aos="fade-up" data-aos-delay="200">
+                <img src="s2.png" alt="Ceramic Coating" class="service-image">
+                <div class="service-content">
+                    <h3 class="service-title">Ceramic Coating</h3>
+                    <p class="service-description">Advanced paint protection with ceramic coating technology. Provides long-lasting shine and protection against environmental damage.</p>
+                    <a href="#" class="cta-button">Learn More</a>
+                </div>
+            </div>
+            <div class="service-card" data-aos="fade-up" data-aos-delay="400">
+                <img src="s3.png" alt="Paint Correction" class="service-image">
+                <div class="service-content">
+                    <h3 class="service-title">Paint Correction</h3>
+                    <p class="service-description">Professional paint correction to remove swirls, scratches, and imperfections. Restore your vehicle's paint to its original glory.</p>
+                    <a href="#" class="cta-button">Learn More</a>
+                </div>
+            </div>
+            <div class="service-card" data-aos="fade-up" data-aos-delay="600">
+                <img src="s4.png" alt="Truck Detailing" class="service-image">
+                <div class="service-content">
+                    <h3 class="service-title">Truck Detailing</h3>
+                    <p class="service-description">Specialized detailing services for trucks and commercial vehicles. Comprehensive cleaning and protection for your fleet.</p>
+                    <a href="#" class="cta-button">Learn More</a>
+                </div>
             </div>
         </div>
     </section>
+	
+	
+	<!-- Maintenance Section -->
+    <section id="maintenance" class="maintenance">
+        <div class="maintenance-content" data-aos="fade-right">
+            <h2 class="maintenance-title">Luxury Vehicle Maintenance Package</h2>
+            <p class="maintenance-description">Keep your luxury vehicle in pristine condition with our comprehensive maintenance packages. Regular care ensures lasting beauty and protection.</p>
+            <a href="#" class="cta-button">Find Out More</a>
+        </div>
+        <div class="maintenance-image" data-aos="fade-left">
+            <img src="s5.png" alt="Luxury Vehicle Maintenance">
+        </div>
+    </section>
 
+    <!-- Testimonials Section -->
     <section id="testimonials" class="testimonials">
-        <div class="testimonial-slide active">
-            <p class="testimonial-content">"Amazing guy... very professional, did amazing job and very affordable.<br>
-            Highly recommended"</p>
-            <div class="testimonial-divider"></div>
-            <p class="testimonial-author">Amarpal Singh</p>
-        </div>
-        <div class="testimonial-slide">
-            <p class="testimonial-content">"Exceptional service and attention to detail. My car looks better than when it was new!"</p>
-            <div class="testimonial-divider"></div>
-            <p class="testimonial-author">John Smith</p>
-        </div>
-        <div class="testimonial-slide">
-            <p class="testimonial-content">"Professional, courteous, and truly exceptional results. Would highly recommend!"</p>
-            <div class="testimonial-divider"></div>
-            <p class="testimonial-author">Sarah Johnson</p>
-        </div>
-
-        <div class="testimonial-nav">
-            <button onclick="prevSlide()">❮</button>
-            <button onclick="nextSlide()">❯</button>
-        </div>
-
-        <div class="testimonial-dots">
-            <span class="dot active" onclick="currentSlide(1)"></span>
-            <span class="dot" onclick="currentSlide(2)"></span>
-            <span class="dot" onclick="currentSlide(3)"></span>
+        <h2 class="section-title" data-aos="fade-up">What Our Clients Say</h2>
+        <div class="testimonial-slider">
+            <div class="testimonial-slide active">
+                <p class="testimonial-text">"Very good and friendly service, takes the time to make sure he fulfils the customers satisfaction needs. Took our Kenworth 402 to a whole new level!"</p>
+                <p class="testimonial-author">Lachlan Cerchiaro</p>
+            </div>
+            <div class="testimonial-slide">
+                <p class="testimonial-text">"Exceptional service and attention to detail. My car looks better than when it was new!"</p>
+                <p class="testimonial-author">John Smith</p>
+            </div>
+            <div class="testimonial-slide">
+                <p class="testimonial-text">"Professional, courteous, and truly exceptional results. Would highly recommend!"</p>
+                <p class="testimonial-author">Sarah Johnson</p>
+            </div>
+            <div class="testimonial-nav">
+                <span class="prev" onclick="changeSlide(-1)">❮</span>
+                <span class="next" onclick="changeSlide(1)">❯</span>
+            </div>
+            <div class="testimonial-dots">
+                <span class="dot active" onclick="currentSlide(1)"></span>
+                <span class="dot" onclick="currentSlide(2)"></span>
+                <span class="dot" onclick="currentSlide(3)"></span>
+            </div>
         </div>
     </section>
 
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-column">
+                <h3>About Us</h3>
+                <p>Premium auto detailing services dedicated to bringing out the best in your vehicle. Professional care with attention to detail.</p>
+                <div class="social-links">
+                    <a href="#"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#"><i class="fab fa-instagram"></i></a>
+                    <a href="#"><i class="fab fa-whatsapp"></i></a>
+                </div>
+            </div>
+            <div class="footer-column">
+                <h3>Services</h3>
+                <a href="#">Car Detailing</a>
+                <a href="#">Ceramic Coating</a>
+                <a href="#">Paint Correction</a>
+                <a href="#">Truck Detailing</a>
+                <a href="#">Maintenance Packages</a>
+            </div>
+            <div class="footer-column">
+                <h3>Hours</h3>
+                <p>Monday - Friday: 8am - 6pm</p>
+                <p>Saturday: 9am - 5pm</p>
+                <p>Sunday: By Appointment</p>
+            </div>
+            <div class="footer-column">
+                <h3>Contact</h3>
+                <p>123 Detail Street</p>
+                <p>Melbourne, VIC 3000</p>
+                <p>Phone: (03) 1234 5678</p>
+                <p>Email: info@luxurydetailing.com</p>
+            </div>
+        </div>
+        <div class="copyright">
+            © 2024 Luxury Auto Detailing. All rights reserved.
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.js"></script>
     <script>
-        // Navigation scroll behavior
-        document.querySelectorAll('nav a').forEach(anchor => {
-            anchor.addEventListener('click', function(e) {
-                e.preventDefault();
-                const section = document.querySelector(this.getAttribute('href'));
-                section.scrollIntoView({ behavior: 'smooth' });
-            });
+        // Initialize AOS
+        AOS.init({
+            duration: 1000,
+            once: true
         });
 
-        // Nav background opacity change on scroll
+        // Navbar Scroll Effect
         window.addEventListener('scroll', function() {
-            const nav = document.querySelector('nav');
-            if (window.scrollY > 100) {
-                nav.style.backgroundColor = 'rgba(0,0,0,0.9)';
+            const navbar = document.querySelector('.navbar');
+            if (window.scrollY > 50) {
+                navbar.classList.add('scrolled');
             } else {
-                nav.style.backgroundColor = 'rgba(0,0,0,0.7)';
+                navbar.classList.remove('scrolled');
             }
         });
 
-        // Testimonials slider
+        // Mobile Menu Toggle
+        const mobileMenuBtn = document.querySelector('.mobile-menu-btn');
+        const navLinks = document.querySelector('.nav-links');
+
+        mobileMenuBtn.addEventListener('click', () => {
+            navLinks.classList.toggle('active');
+        });
+
+        // Testimonial Slider
         let slideIndex = 1;
         showSlides(slideIndex);
+
+        function changeSlide(n) {
+            showSlides(slideIndex += n);
+        }
+
+        function currentSlide(n) {
+            showSlides(slideIndex = n);
+        }
 
         function showSlides(n) {
             const slides = document.getElementsByClassName("testimonial-slide");
@@ -454,31 +623,31 @@
             if (n > slides.length) {slideIndex = 1}
             if (n < 1) {slideIndex = slides.length}
             
+            // Hide all slides
             for (let i = 0; i < slides.length; i++) {
-                slides[i].classList.remove("active");
+                slides[i].style.display = "none";
                 dots[i].classList.remove("active");
             }
             
-            slides[slideIndex-1].classList.add("active");
+            // Show current slide
+            slides[slideIndex-1].style.display = "block";
             dots[slideIndex-1].classList.add("active");
         }
 
-        function prevSlide() {
-            showSlides(slideIndex -= 1);
-        }
-
-        function nextSlide() {
-            showSlides(slideIndex += 1);
-        }
-
-        function currentSlide(n) {
-            showSlides(slideIndex = n);
-        }
-
-        // Auto advance slides every 5 seconds
+        // Auto advance slides
         setInterval(() => {
-            nextSlide();
+            changeSlide(1);
         }, 5000);
+
+        // Smooth scroll for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                document.querySelector(this.getAttribute('href')).scrollIntoView({
+                    behavior: 'smooth'
+                });
+            });
+        });
     </script>
 </body>
 </html>
