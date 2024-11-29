@@ -1,0 +1,484 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Luxury Auto Detailing</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Arial', sans-serif;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        .header {
+            position: relative;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            color: white;
+            overflow: hidden;
+        }
+
+        .video-bg {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+        }
+
+        .video-bg video {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: -1;
+        }
+
+        .logo {
+            max-width: 300px;
+            margin-bottom: 30px;
+        }
+
+        nav {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            padding: 20px;
+            background: rgba(0,0,0,0.8);
+            z-index: 100;
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+        }
+
+        nav a {
+            color: white;
+            text-decoration: none;
+            font-weight: bold;
+            transition: color 0.3s ease;
+        }
+
+        nav a:hover {
+            color: #e31837;
+        }
+
+        .header-content {
+            text-align: center;
+            z-index: 1;
+        }
+
+        .header-title {
+            font-size: 3.5em;
+            margin-bottom: 20px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+        }
+
+        .header-subtitle {
+            font-size: 1.5em;
+            margin-bottom: 30px;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.5);
+        }
+
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            padding: 50px 20px;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .service-card {
+            position: relative;
+            height: 400px;
+            overflow: hidden;
+            border-radius: 15px;
+            cursor: pointer;
+            transition: transform 0.3s ease;
+        }
+
+        .service-card:hover {
+            transform: translateY(-10px);
+        }
+
+        .service-image {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.3s ease;
+        }
+
+        .service-card:hover .service-image {
+            transform: scale(1.1);
+        }
+
+        .service-content {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            padding: 20px;
+            background: linear-gradient(transparent, rgba(0,0,0,0.9));
+            color: white;
+            transform: translateY(70%);
+            transition: transform 0.3s ease;
+        }
+
+        .service-card:hover .service-content {
+            transform: translateY(0);
+        }
+
+        .service-title {
+            font-size: 1.5em;
+            margin-bottom: 10px;
+        }
+
+        .service-description {
+            font-size: 0.9em;
+            margin-bottom: 15px;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .service-card:hover .service-description {
+            opacity: 1;
+        }
+
+        .cta-button {
+            display: inline-block;
+            padding: 10px 20px;
+            background: #e31837;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            transition: transform 0.3s ease;
+            border: none;
+            cursor: pointer;
+        }
+
+        .cta-button:hover {
+            transform: scale(1.1);
+        }
+
+        .maintenance-section {
+            background: #f9f9f9;
+            padding: 80px 20px;
+            text-align: center;
+        }
+
+        .maintenance-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+            gap: 40px;
+        }
+
+        .maintenance-text {
+            flex: 1;
+            text-align: left;
+        }
+
+        .maintenance-text h2 {
+            font-size: 38px;
+            color: #333;
+            margin-bottom: 30px;
+        }
+
+        .maintenance-image {
+            flex: 1;
+            height: 300px;
+            overflow: hidden;
+            border-radius: 10px;
+        }
+
+        .maintenance-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .testimonials {
+            padding: 80px 20px;
+            background: #1a1a1a;
+            color: white;
+            text-align: center;
+            position: relative;
+        }
+
+        .testimonial-slide {
+            max-width: 800px;
+            margin: 0 auto;
+            display: none;
+            animation: fadeIn 0.5s ease-in-out;
+        }
+
+        .testimonial-slide.active {
+            display: block;
+        }
+
+        .testimonial-content {
+            font-size: 20px;
+            line-height: 1.3;
+            margin-bottom: 20px;
+        }
+
+        .testimonial-author {
+            font-size: 16px;
+            margin-bottom: 10px;
+        }
+
+        .testimonial-divider {
+            width: 50px;
+            height: 2px;
+            background: white;
+            margin: 15px auto;
+        }
+
+        .testimonial-nav {
+            position: absolute;
+            top: 50%;
+            width: 100%;
+            transform: translateY(-50%);
+            display: flex;
+            justify-content: space-between;
+            padding: 0 30px;
+        }
+
+        .testimonial-nav button {
+            background: none;
+            border: none;
+            color: white;
+            cursor: pointer;
+            font-size: 24px;
+            padding: 10px;
+            transition: opacity 0.3s ease;
+        }
+
+        .testimonial-nav button:hover {
+            opacity: 0.7;
+        }
+
+        .testimonial-dots {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin-top: 20px;
+        }
+
+        .dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.3);
+            cursor: pointer;
+        }
+
+        .dot.active {
+            background: white;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @media (max-width: 768px) {
+            .maintenance-content {
+                flex-direction: column;
+            }
+
+            .header-title {
+                font-size: 2.5em;
+            }
+
+            .header-subtitle {
+                font-size: 1.2em;
+            }
+
+            nav {
+                flex-direction: column;
+                align-items: center;
+                gap: 15px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <nav>
+        <a href="#home">Home</a>
+        <a href="#services">Services</a>
+        <a href="#maintenance">Maintenance</a>
+        <a href="#testimonials">Reviews</a>
+    </nav>
+
+    <header class="header" id="home">
+        <div class="video-bg">
+            <video autoplay muted loop playsinline>
+                <source src="vid.mp4" type="video/mp4">
+            </video>
+            <div class="overlay"></div>
+        </div>
+        <div class="header-content">
+            <img src="logo.png" alt="Logo" class="logo">
+            <h1 class="header-title">Luxury Auto Detailing</h1>
+            <p class="header-subtitle">Experience Premium Car Care</p>
+            <button class="cta-button">Book Now</button>
+        </div>
+    </header>
+
+    <section id="services" class="services-grid">
+        <div class="service-card">
+            <img src="s1.png" alt="Car Detailing" class="service-image">
+            <div class="service-content">
+                <h3 class="service-title">Car Detailing</h3>
+                <p class="service-description">Complete interior and exterior detailing service to restore your vehicle's showroom shine. Our premium service includes thorough cleaning, polishing, and protection.</p>
+                <button class="cta-button">Learn More</button>
+            </div>
+        </div>
+        <div class="service-card">
+            <img src="s2.png" alt="Ceramic Coating" class="service-image">
+            <div class="service-content">
+                <h3 class="service-title">Ceramic Coating</h3>
+                <p class="service-description">Advanced paint protection with ceramic coating technology. Provides long-lasting shine and protection against environmental damage.</p>
+                <button class="cta-button">Learn More</button>
+            </div>
+        </div>
+        <div class="service-card">
+            <img src="s3.png" alt="Paint Correction" class="service-image">
+            <div class="service-content">
+                <h3 class="service-title">Paint Correction</h3>
+                <p class="service-description">Professional paint correction to remove swirls, scratches, and imperfections. Restore your vehicle's paint to its original glory.</p>
+                <button class="cta-button">Learn More</button>
+            </div>
+        </div>
+        <div class="service-card">
+            <img src="s4.png" alt="Truck Detailing" class="service-image">
+            <div class="service-content">
+                <h3 class="service-title">Truck Detailing</h3>
+                <p class="service-description">Specialized detailing services for trucks and commercial vehicles. Comprehensive cleaning and protection for your fleet.</p>
+                <button class="cta-button">Learn More</button>
+            </div>
+        </div>
+    </section>
+
+    <section id="maintenance" class="maintenance-section">
+        <div class="maintenance-content">
+            <div class="maintenance-text">
+                <h2>LUXURY VEHICLE MAINTENANCE PACKAGE</h2>
+                <button class="cta-button">FIND OUT MORE</button>
+            </div>
+            <div class="maintenance-image">
+                <img src="s5.png" alt="Luxury Vehicle Maintenance">
+            </div>
+        </div>
+    </section>
+
+    <section id="testimonials" class="testimonials">
+        <div class="testimonial-slide active">
+            <p class="testimonial-content">"Amazing guy... very professional, did amazing job and very affordable.<br>
+            Highly recommended"</p>
+            <div class="testimonial-divider"></div>
+            <p class="testimonial-author">Amarpal Singh</p>
+        </div>
+        <div class="testimonial-slide">
+            <p class="testimonial-content">"Exceptional service and attention to detail. My car looks better than when it was new!"</p>
+            <div class="testimonial-divider"></div>
+            <p class="testimonial-author">John Smith</p>
+        </div>
+        <div class="testimonial-slide">
+            <p class="testimonial-content">"Professional, courteous, and truly exceptional results. Would highly recommend!"</p>
+            <div class="testimonial-divider"></div>
+            <p class="testimonial-author">Sarah Johnson</p>
+        </div>
+
+        <div class="testimonial-nav">
+            <button onclick="prevSlide()">❮</button>
+            <button onclick="nextSlide()">❯</button>
+        </div>
+
+        <div class="testimonial-dots">
+            <span class="dot active" onclick="currentSlide(1)"></span>
+            <span class="dot" onclick="currentSlide(2)"></span>
+            <span class="dot" onclick="currentSlide(3)"></span>
+        </div>
+    </section>
+
+    <script>
+        // Navigation scroll behavior
+        document.querySelectorAll('nav a').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                e.preventDefault();
+                const section = document.querySelector(this.getAttribute('href'));
+                section.scrollIntoView({ behavior: 'smooth' });
+            });
+        });
+
+        // Nav background opacity change on scroll
+        window.addEventListener('scroll', function() {
+            const nav = document.querySelector('nav');
+            if (window.scrollY > 100) {
+                nav.style.backgroundColor = 'rgba(0,0,0,0.9)';
+            } else {
+                nav.style.backgroundColor = 'rgba(0,0,0,0.7)';
+            }
+        });
+
+        // Testimonials slider
+        let slideIndex = 1;
+        showSlides(slideIndex);
+
+        function showSlides(n) {
+            const slides = document.getElementsByClassName("testimonial-slide");
+            const dots = document.getElementsByClassName("dot");
+            
+            if (n > slides.length) {slideIndex = 1}
+            if (n < 1) {slideIndex = slides.length}
+            
+            for (let i = 0; i < slides.length; i++) {
+                slides[i].classList.remove("active");
+                dots[i].classList.remove("active");
+            }
+            
+            slides[slideIndex-1].classList.add("active");
+            dots[slideIndex-1].classList.add("active");
+        }
+
+        function prevSlide() {
+            showSlides(slideIndex -= 1);
+        }
+
+        function nextSlide() {
+            showSlides(slideIndex += 1);
+        }
+
+        function currentSlide(n) {
+            showSlides(slideIndex = n);
+        }
+
+        // Auto advance slides every 5 seconds
+        setInterval(() => {
+            nextSlide();
+        }, 5000);
+    </script>
+</body>
+</html>
